@@ -16,6 +16,8 @@ public class DayManager : MonoBehaviour
     private bool isGameSpedUp = false;
     private bool isGameSlowedDown = false;
     private bool isGameNormal = true;
+    private bool isGameStarted = false;
+    private int screenshotIndex = 0;
 
     private DayManagerUI dayManagerUI;
 
@@ -29,6 +31,12 @@ public class DayManager : MonoBehaviour
     }
     private void Update()
     {
+        if (!isGameStarted) return;
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            ScreenCapture.CaptureScreenshot($"screenshot{screenshotIndex++}.png");
+        }
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Alpha2))
         {
             PauseTime();
@@ -45,7 +53,6 @@ public class DayManager : MonoBehaviour
         {
             NormalTime();
         }
-        print(speedMultiplier);
 
         dayTimer += Time.deltaTime * speedMultiplier;
 
@@ -81,6 +88,11 @@ public class DayManager : MonoBehaviour
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.SlowDownImage, isGameSlowedDown);
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.NormalImage, isGameNormal);
     }
+    public void PauseTimeButton()
+    {
+        AudioManager.Instance.CreateAudioGO(AudioManager.Instance.ButtonClickAudioPrefab, 0.5f);
+        PauseTime();
+    }
     public void SpeedUpTime()
     {
         isGameSpedUp = true;
@@ -92,6 +104,12 @@ public class DayManager : MonoBehaviour
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.SpeedUpImage, isGameSpedUp);
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.SlowDownImage, isGameSlowedDown);
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.NormalImage, isGameNormal);
+        dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.PauseImage, isGameStopped);
+    }
+    public void SpeedUpTimeButton()
+    {
+        AudioManager.Instance.CreateAudioGO(AudioManager.Instance.ButtonClickAudioPrefab, 0.5f);
+        SpeedUpTime();
     }
     public void SlowDownTime()
     {
@@ -104,6 +122,12 @@ public class DayManager : MonoBehaviour
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.SlowDownImage, isGameSlowedDown);
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.SpeedUpImage, isGameSpedUp);
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.NormalImage, isGameNormal);
+        dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.PauseImage, isGameStopped);
+    }
+    public void SlowDownTimeButton()
+    {
+        AudioManager.Instance.CreateAudioGO(AudioManager.Instance.ButtonClickAudioPrefab, 0.5f);
+        SlowDownTime();
     }
     public void NormalTime()
     {
@@ -118,6 +142,13 @@ public class DayManager : MonoBehaviour
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.SpeedUpImage, isGameSpedUp);
         dayManagerUI.ActivateOrDeactivateImage(dayManagerUI.PauseImage, isGameStopped);
     }
+    public void NormalTimeButton()
+    {
+        AudioManager.Instance.CreateAudioGO(AudioManager.Instance.ButtonClickAudioPrefab, 0.5f);
+        NormalTime();
+    }
     public float GetDayTimer() => dayTimer;
     public float GetDayThreshold() => dayThreshold;
+    public void ChangeIsGameStarted(bool cond) => isGameStarted = cond;
+    public bool GetIsGameStarted() => isGameStarted;
 }

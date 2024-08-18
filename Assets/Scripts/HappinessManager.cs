@@ -36,6 +36,10 @@ public class HappinessManager : MonoBehaviour
         {
             if(bar.GetBudget() <= averageBudgetOnBars)
             {
+                if(bar.GetBudget() <= 1000)
+                {
+                    happiness--;
+                }
                 happiness--;
             }
             else

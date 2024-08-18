@@ -17,3 +17,4 @@ MonoBehaviour:
     are affected.
   BarTypes: 0100000004000000
   EventEffect: 2
+  isEventPositive: 1

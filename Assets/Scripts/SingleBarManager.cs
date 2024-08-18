@@ -51,6 +51,8 @@ public class SingleBarManager : MonoBehaviour
     {
         if(barManager.GetSpendableBudget() >= ChangingAmount)
         {
+            AudioManager.Instance.CreateAudioGO(AudioManager.Instance.ButtonClickAudioPrefab);
+
             budget += ChangingAmount;
             barManager.ChangeSpendableBudget(-ChangingAmount);
             OnBudgetChangedAmount?.Invoke(ChangingAmount);
@@ -61,6 +63,8 @@ public class SingleBarManager : MonoBehaviour
     {
         if(budget > 0)
         {
+            AudioManager.Instance.CreateAudioGO(AudioManager.Instance.ButtonClickAudioPrefab);
+
             budget -= ChangingAmount;
             barManager.ChangeSpendableBudget(ChangingAmount);
             OnBudgetChangedAmount?.Invoke(-ChangingAmount);

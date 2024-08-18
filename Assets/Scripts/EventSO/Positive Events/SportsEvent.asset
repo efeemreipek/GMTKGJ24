@@ -17,3 +17,4 @@ MonoBehaviour:
     COMMERCIAL and CITY SERVICES are affected.
   BarTypes: 000000000100000004000000
   EventEffect: 2
+  isEventPositive: 1

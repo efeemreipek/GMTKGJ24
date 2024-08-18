@@ -9,4 +9,5 @@ public class EventSO : ScriptableObject
     [TextArea] public string EventText;
     public List<BarType> BarTypes;
     public int EventEffect;
+    public bool isEventPositive;
 }

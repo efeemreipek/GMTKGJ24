@@ -17,3 +17,4 @@ MonoBehaviour:
     INDUSTRY and CITY SERVICES are affected.
   BarTypes: 000000000200000004000000
   EventEffect: 2
+  isEventPositive: 1

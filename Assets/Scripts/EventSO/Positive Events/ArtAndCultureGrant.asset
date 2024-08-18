@@ -17,3 +17,4 @@ MonoBehaviour:
     COMMERCIAL and OFFICES are affected
   BarTypes: 000000000100000005000000
   EventEffect: 1
+  isEventPositive: 1

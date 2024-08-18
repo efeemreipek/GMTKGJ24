@@ -17,3 +17,4 @@ MonoBehaviour:
     and OFFICES are affected.
   BarTypes: 0200000005000000
   EventEffect: 2
+  isEventPositive: 1

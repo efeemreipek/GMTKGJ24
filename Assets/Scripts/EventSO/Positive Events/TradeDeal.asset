@@ -17,3 +17,4 @@ MonoBehaviour:
     and INDUSTRY are affected.
   BarTypes: 0100000002000000
   EventEffect: 2
+  isEventPositive: 1

@@ -17,3 +17,4 @@ MonoBehaviour:
     EDUCATION and OFFICES are affected.
   BarTypes: 0300000005000000
   EventEffect: 3
+  isEventPositive: 1
