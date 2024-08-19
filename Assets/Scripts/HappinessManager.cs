@@ -6,6 +6,8 @@ using UnityEngine;
 public class HappinessManager : MonoBehaviour
 {
     public static Action<int> OnHappinessChanged;
+    public static Action OnHappinessZero;
+    public static Action OnHappinessFull;
 
     [SerializeField] private int happiness = 50;
 
@@ -14,14 +16,22 @@ public class HappinessManager : MonoBehaviour
 
     private void Awake()
     {
+        happiness = 50;
+
         barManager = GetComponent<BarManager>();
 
         DayManager.OnDayPassed += DayManager_OnDayPassed;
+        MenuManager.OnGameRestarted += MenuManager_OnGameRestarted;
     }
     private void Start()
     {
         barList = barManager.GetSingleBarList();
 
+        OnHappinessChanged?.Invoke(happiness);
+    }
+    private void MenuManager_OnGameRestarted()
+    {
+        happiness = 50;
         OnHappinessChanged?.Invoke(happiness);
     }
     private void DayManager_OnDayPassed(int dayCount)
@@ -48,8 +58,16 @@ public class HappinessManager : MonoBehaviour
             }
         }
 
-        if(happiness < 0) happiness = 0;
-        else if(happiness > 100) happiness = 100;
+        if (happiness <= 0)
+        {
+            happiness = 0;
+            OnHappinessZero?.Invoke();
+        }
+        else if (happiness >= 100)
+        {
+            happiness = 100;
+            OnHappinessFull?.Invoke();
+        }
 
         OnHappinessChanged?.Invoke(happiness);
     }

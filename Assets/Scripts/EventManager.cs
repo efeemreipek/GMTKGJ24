@@ -25,7 +25,7 @@ public class EventManager : MonoBehaviour
 
     private void DayManager_OnDayPassed(int dayCount)
     {
-        if(Random.Range(0, 100) <= eventOccurPercentage)
+        if(Random.Range(0, 100) <= eventOccurPercentage && !dayManager.GetIsGameOver() && dayManager.GetIsGameStarted())
         {
             dayManager.PauseTime();
 

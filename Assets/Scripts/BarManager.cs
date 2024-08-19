@@ -24,6 +24,19 @@ public class BarManager : MonoBehaviour
         SingleBarManager.OnBudgetChangedAmount += SingleBarManager_OnBudgetChangedAmount;
         DayManager.OnDayPassed += DayManager_OnDayPassed;
         Event.OnEventPopupClosed += Event_OnEventPopupClosed;
+        MenuManager.OnGameRestarted += MenuManager_OnGameRestarted;
+    }
+    private void MenuManager_OnGameRestarted()
+    {
+        totalBudget = 0;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            totalBudget += barList[i].GetBudget();
+        }
+        spendableBudget = 1000;
+
+        OnTotalBudgetChanged?.Invoke(totalBudget);
+        OnSpendableBudgetChanged?.Invoke(spendableBudget);
     }
     private void Event_OnEventPopupClosed(List<BarType> barTypes, int eventEffect)
     {

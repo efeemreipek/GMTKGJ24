@@ -30,7 +30,12 @@ public class DayManagerUI : MonoBehaviour
     }
     private void DayManager_OnDayPassed(int amount)
     {
-        DayText.text = $"DAY {amount.ToString()}";
+        //DayText.text = $"DAY {amount.ToString()}";
+        ChangeDayText(amount.ToString());
+    }
+    public void ChangeDayText(string text)
+    {
+        DayText.text = $"DAY {text}";
     }
     public void ActivateOrDeactivateImage(Image image, bool cond)
     {

@@ -6,9 +6,12 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
+    public Transform BackgroundMusicTransform;
     public GameObject ButtonClickAudioPrefab;
     public GameObject PositiveEventAudioPrefab;
     public GameObject NegativeEventAudioPrefab;
+    public GameObject GameOverAudioPrefab;
+    public GameObject GameWonAudioPrefab;
 
     private void Awake()
     {
@@ -18,5 +21,9 @@ public class AudioManager : MonoBehaviour
     {
         Instantiate(audioGO);
         audioGO.GetComponent<AudioSource>().volume = volume;
+    }
+    public void StopBackgroundMusic(bool stop)
+    {
+        BackgroundMusicTransform.GetComponent<AudioSource>().mute = stop; 
     }
 }

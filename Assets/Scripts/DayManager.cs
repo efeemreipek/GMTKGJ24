@@ -6,6 +6,8 @@ using UnityEngine;
 public class DayManager : MonoBehaviour
 {
     public static Action<int> OnDayPassed;
+    public static Action OnGameOver;
+    public static Action OnGameWon;
 
     [SerializeField] private float dayThreshold = 15f;
     [SerializeField] private float speedMultiplier = 1f;
@@ -17,13 +19,20 @@ public class DayManager : MonoBehaviour
     private bool isGameSlowedDown = false;
     private bool isGameNormal = true;
     private bool isGameStarted = false;
+    private bool isGameOver = false;
     private int screenshotIndex = 0;
 
     private DayManagerUI dayManagerUI;
 
     private void Awake()
     {
+        isGameOver = false;
+
         dayManagerUI = GetComponent<DayManagerUI>();
+
+        HappinessManager.OnHappinessZero += HappinessManager_OnHappinessZero;
+        HappinessManager.OnHappinessFull += HappinessManager_OnHappinessFull;
+        MenuManager.OnGameRestarted += MenuManager_OnGameRestarted;
     }
     private void Start()
     {
@@ -32,6 +41,7 @@ public class DayManager : MonoBehaviour
     private void Update()
     {
         if (!isGameStarted) return;
+        if (isGameOver) return;
 
         if (Input.GetKeyDown(KeyCode.B))
         {
@@ -61,6 +71,30 @@ public class DayManager : MonoBehaviour
             dayTimer = 0f;
             OnDayPassed?.Invoke(++dayCount);
         }
+    }
+    private void MenuManager_OnGameRestarted()
+    {
+        isGameStarted = false;
+        isGameOver = false;
+        dayTimer = 0f;
+        dayCount = 0;
+        dayManagerUI.ChangeDayText(dayCount.ToString());
+    }
+    private void HappinessManager_OnHappinessZero()
+    {
+        PauseTime();
+        isGameOver = true;
+        OnGameOver?.Invoke();
+        AudioManager.Instance.CreateAudioGO(AudioManager.Instance.GameOverAudioPrefab);
+        AudioManager.Instance.StopBackgroundMusic(true);
+    }
+    private void HappinessManager_OnHappinessFull()
+    {
+        PauseTime();
+        isGameOver = true;
+        OnGameWon?.Invoke();
+        AudioManager.Instance.CreateAudioGO(AudioManager.Instance.GameWonAudioPrefab);
+        AudioManager.Instance.StopBackgroundMusic(true);
     }
     public void PauseTime()
     {
@@ -151,4 +185,5 @@ public class DayManager : MonoBehaviour
     public float GetDayThreshold() => dayThreshold;
     public void ChangeIsGameStarted(bool cond) => isGameStarted = cond;
     public bool GetIsGameStarted() => isGameStarted;
+    public bool GetIsGameOver() => isGameOver;
 }

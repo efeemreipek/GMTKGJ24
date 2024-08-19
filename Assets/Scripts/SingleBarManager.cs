@@ -23,7 +23,7 @@ public class SingleBarManager : MonoBehaviour
 
     [SerializeField] private BarType type;
     [SerializeField] private int budget = 1000;
-    [SerializeField] private int growthRate = 10;
+    [SerializeField] private int growthRate = 5;
 
     public int ChangingAmount = 100;
     public Image BarImage;
@@ -36,6 +36,17 @@ public class SingleBarManager : MonoBehaviour
         barManager = GetComponentInParent<BarManager>();
 
         DayManager.OnDayPassed += DayManager_OnDayPassed;
+        MenuManager.OnGameRestarted += MenuManager_OnGameRestarted;
+    }
+    private void MenuManager_OnGameRestarted()
+    {
+        budget = 1000;
+        growthRate = 5;
+        lastGrowthRate = 0;
+
+        OnBudgetChanged?.Invoke(budget);
+        OnBudgetChangedAmount?.Invoke(0);
+        OnGrowthRateChanged?.Invoke(growthRate);
     }
     private void DayManager_OnDayPassed(int dayCount)
     {
